@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Komparasi Data</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .option-card {
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .option-card:hover {
+            transform: translateY(-5px);
+            border-color: #0d6efd;
+            box-shadow: 0 0.5rem 1.5rem rgba(13, 110, 253, 0.15) !important;
+        }
+        .icon-box {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <!-- Header -->
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-dark">Pilih Mode Komparasi</h2>
+        <p class="text-muted">Silakan pilih metode pencocokan data yang ingin kamu lakukan</p>
+    </div>
+
+    <!-- Options Cards -->
+    <div class="row justify-content-center g-4">
+        
+        <!-- Opsi 1: Excel to Excel -->
+        <div class="col-md-5 col-lg-4">
+            <a href="{% url 'compare_excel_excel' %}" class="text-decoration-none">
+                <div class="card option-card h-100 p-4 text-center shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="icon-box bg-success-subtle text-success fs-2">
+                                <i class="bi bi-file-earmark-excel-fill"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">Excel vs Excel</h4>
+                            <p class="text-muted small">
+                                Bandingkan dua file Excel secara langsung untuk mengecek selisih kuantitas atau data produk.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <span class="btn btn-outline-success w-100 rounded-pill fw-semibold">
+                                Pilih Excel vs Excel <i class="bi bi-arrow-right ms-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Opsi 2: Excel to API -->
+        <div class="col-md-5 col-lg-4">
+            <a href="{% url 'compare_excel_api' %}" class="text-decoration-none">
+                <div class="card option-card h-100 p-4 text-center shadow-sm">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <div class="icon-box bg-primary-subtle text-primary fs-2">
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+                            </div>
+                            <h4 class="fw-bold text-dark mb-2">Excel vs API</h4>
+                            <p class="text-muted small">
+                                Upload file Excel dan bandingkan stok/kuantitasnya secara otomatis dengan data real-time dari API database.
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <span class="btn btn-primary w-100 rounded-pill fw-semibold">
+                                Pilih Excel vs API <i class="bi bi-arrow-right ms-1"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

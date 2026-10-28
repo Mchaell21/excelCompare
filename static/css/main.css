@@ -1,0 +1,699 @@
+/* ==========================================================================
+   Layout aplikasi: Sidebar (desktop) + Navbar + Bottombar (mobile)
+   ========================================================================== */
+
+:root {
+  --app-sidebar-w: 248px;
+  --app-bottombar-h: 62px;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.dt-processing {
+  top: 90% !important;
+}
+/* Wrapper utama */
+.app-layout {
+  min-height: 100vh;
+}
+
+/* ----- Sidebar (layar lebar, >= lg) ----- */
+.app-sidebar {
+  width: var(--app-sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background-color: #1f2937;
+  color: #e5e7eb;
+}
+
+.app-sidebar .app-brand {
+  padding: 1rem 1.25rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+}
+
+.app-sidebar .app-nav {
+  overflow-y: auto;
+}
+
+.app-sidebar .app-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.55rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border-radius: 0.5rem;
+  color: #cbd5e1;
+  font-size: 0.925rem;
+}
+
+.app-sidebar .app-nav .nav-link:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.app-sidebar .app-nav .nav-link.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.14);
+}
+
+.app-sidebar .app-sidebar-user {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.app-sidebar .avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #374151;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+/* ----- Area utama (kanan dari sidebar) ----- */
+.app-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ----- Navbar (atas) ----- */
+.app-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  height: 56px;
+  padding: 0 1rem;
+  background-color: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app-navbar .app-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+}
+
+/* ----- Konten ----- */
+.app-content {
+  flex: 1 1 auto;
+  width: 100%;
+  overflow-x: auto;
+  padding: 1.25rem;
+}
+
+/* ----- Bottombar (mobile, < lg) ----- */
+.app-bottombar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1030;
+  height: var(--app-bottombar-h);
+  background-color: #fff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.app-bottombar .bottombar-nav {
+  display: flex;
+  height: 100%;
+}
+
+.app-bottombar .bottombar-link {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 0.72rem;
+}
+
+.app-bottombar .bottombar-link .icon {
+  width: 22px;
+  height: 22px;
+}
+
+.app-bottombar .bottombar-link:hover {
+  color: #2563eb;
+}
+
+.app-bottombar .bottombar-link.active {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Beri ruang ekstra di bawah konten saat bottombar tampil (mobile) */
+@media (max-width: 991.98px) {
+  .app-content {
+    padding-bottom: calc(var(--app-bottombar-h) + 1.25rem);
+  }
+}
+
+@media (min-width: 992px) {
+  .app-content {
+    padding: 1.5rem;
+  }
+}
+
+/* ============================================================
+   Dokumen cetak (Packing List / Surat Jalan)
+   ============================================================ */
+@media print {
+  @page {
+   margin: 15mm 15mm 15mm 15mm;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+  
+  html, body {
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important; /* Mencegah scrollbar muncul */
+    background: #ffffff !important;
+  }
+
+  .doc-sheet {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    overflow: visible !important;
+  }
+}
+
+.doc-sheet {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 20px auto;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  box-sizing: border-box;
+}
+
+/* Penyesuaian Tanda Tangan */
+.doc-sign {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  font-size: 12px;
+}
+
+
+@media (max-width: 575.98px) {
+  .doc-sign {
+    flex-direction: column;
+  }
+
+  .table-striped>tbody>tr:nth-of-type(odd)>*{
+    --bs-table-bg-type: rgba(25, 22, 22, 0.02);
+    border-radius: 10px;
+    margin-bottom: 5px;
+  }
+}
+
+/* Kartu form terbatas lebarnya (mis. buat user) */
+.form-card {
+  max-width: 640px;
+}
+
+/* Kolom checkbox sempit pada tabel pilih item */
+.col-checkbox {
+  width: 44px;
+}
+
+/* Input qty sempit pada tabel re-sync (deposit form) */
+.qty-input {
+  width: 110px;
+}
+
+/* ============================================================
+   Komponen tabel (components/tabel.html) — mode mobile (< md)
+   Tabel berubah menjadi kartu per baris: label di atas, nilai di bawah.
+   ============================================================ */
+@media (max-width: 767.98px) {
+  /* "Tampil N baris" tetap tampil di mobile; izinkan baris layout melipat
+     agar select (length) & kotak cari (search) tidak saling tindih. */
+  .tabel-mobile .dt-layout-row {
+    flex-wrap: wrap;
+    row-gap: 0.4rem;
+  }
+
+  .tabel-mobile .dataTables_filter,
+  .tabel-mobile .dt-search {
+    margin-bottom: 0.5rem;
+  }
+
+  .tabel-mobile table,
+  .tabel-mobile tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .tabel-mobile thead {
+    display: none;
+  }
+
+  .tabel-mobile tbody tr {
+    display: block;
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 1rem;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  }
+
+  .tabel-mobile tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .tabel-mobile tbody td {
+    display: block;
+    border: 0;
+    border-bottom: 1px dashed #eef0f3;
+    padding: 0.55rem 0;
+  }
+
+  .tabel-mobile tbody td:last-child {
+    border-bottom: 0;
+  }
+
+  .tabel-mobile tbody td::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+    margin-bottom: 0.15rem;
+  }
+
+  .tabel-mobile tbody td[data-label=""]::before {
+    display: none;
+  }
+
+  /* Tombol aksi tanpa label → selebar kartu agar mudah disentuh */
+  .tabel-mobile tbody td[data-label=""] a.btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   DataTables — polesan UI (length / search / pagination / info)
+   ============================================================ */
+.dataTables_wrapper {
+  padding: 0.15rem 0;
+}
+
+.dataTables_length,
+.dataTables_filter {
+  margin: 0;
+}
+
+.dataTables_length label,
+.dataTables_filter label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.dataTables_filter input {
+  width: 190px;
+  max-width: 100%;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dataTables_filter input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.18rem rgba(37, 99, 235, 0.12);
+  outline: none;
+}
+
+.dataTables_filter input::placeholder {
+  color: #9ca3af;
+}
+
+.dataTables_info {
+  font-size: 0.8rem;
+}
+
+/* Pagination berbentuk pil (pill) ala Bootstrap */
+.dataTables_paginate {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.dataTables_paginate .paginate_button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.dataTables_paginate .paginate_button:hover:not(.disabled):not(.current),
+.dataTables_paginate .paginate_button:focus-visible {
+  color: #111827;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.dataTables_paginate .paginate_button.current {
+  color: #fff;
+  background: #2563eb;
+  border-color: #2563eb;
+  font-weight: 600;
+}
+
+.dataTables_paginate .paginate_button.disabled {
+  color: #cbd5e1;
+  background: #f9fafb;
+  border-color: #eef0f3;
+  cursor: not-allowed;
+}
+
+div.dt-container .dt-input {
+  border-radius: 8px !important;
+}
+
+@media (max-width: 575.98px) {
+  .dataTables_filter input {
+    width: 100%;
+  }
+
+  .dataTables_wrapper .dataTables_filter {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+
+  .dataTables_paginate {
+    margin-top: 0.35rem;
+  }
+}
+
+/* ============================================================
+   Sort mobile (mode kartu) — chip "Urutkan" per kolom
+   ============================================================ */
+.dt-sort-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #475569;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.dt-sort-chip:hover {
+  color: #2563eb;
+  background: #f8fafc;
+  border-color: #93c5fd;
+}
+
+.dt-sort-chip.active {
+  color: #2563eb;
+  background: #eff6ff;
+  border-color: #2563eb;
+  font-weight: 600;
+}
+
+.dt-sort-arrow {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+/* ============================================================
+   DataTables 3 (dt-*) — polesan UI length / search / pagination /
+   info memakai markup bawaan DataTables 3.0.2
+   ============================================================ */
+.dt-container {
+  padding: 0.15rem 0;
+}
+
+.dt-layout-row {
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dt-length,
+.dt-search {
+  margin: 0;
+}
+
+.dt-length label,
+.dt-search label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.dt-search .dt-input {
+  width: 200px;
+  max-width: 100%;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.875rem;
+  color: #111827;
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.dt-search .dt-input::placeholder {
+  color: #9ca3af;
+}
+
+.dt-search .dt-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 0.18rem rgba(37, 99, 235, 0.12);
+  outline: none;
+}
+
+.dt-info {
+  font-size: 0.8rem;
+}
+
+.dt-paging {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.dt-paging .dt-paging-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.1rem;
+  height: 2.1rem;
+  padding: 0 0.6rem;
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.dt-paging .dt-paging-button:hover:not(.disabled):not(.current),
+.dt-paging .dt-paging-button:focus-visible {
+  color: #111827;
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.dt-paging .dt-paging-button.current {
+  color: #fff;
+  background: #2563eb;
+  border-color: #2563eb;
+  font-weight: 600;
+}
+
+.dt-paging .dt-paging-button.disabled {
+  color: #cbd5e1;
+  background: #f9fafb;
+  border-color: #eef0f3;
+  cursor: not-allowed;
+}
+
+.alert-dismissible .btn-close {
+  padding: 15px;
+  font-size: 10px;
+}
+
+table.dataTable th.dt-type-numeric div.dt-column-header, table.dataTable th.dt-type-date div.dt-column-header{
+  flex-direction: row !important;
+  text-align: start;
+}
+
+.ajuan-customer {
+  display: none;
+}
+
+@media (max-width: 575.98px) {
+  .dt-container .dt-search .dt-input {
+    width: 100%;
+    margin-left: 0px !important;
+  }
+
+  /* Di layar sempit, sel ujung (search & paging) turun ke baris sendiri
+     dan melebar penuh supaya tidak sempit/terpotong di samping length/info. */
+  .tabel-mobile .dt-layout-row .dt-layout-cell.dt-layout-end {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+  }
+
+  .tabel-mobile .dt-search {
+    width: 100%;
+  }
+
+  .tabel-mobile .dt-search .dt-input {
+    width: 100%;
+  }
+}
+
+@media print {
+  /* Sembunyikan elemen tombol/navigasi yang berkelas no-print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Hilangkan margin bawaan halaman untuk menghapus header/footer URL browser */
+  @page {
+    margin: 0;
+  }
+
+  /* Beri jarak aman untuk konten kertas */
+  body {
+    padding: 1,5cm;
+    background-color: #fff !important;
+  }
+
+  /* Hilangkan shadow card agar cetakan bersih */
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .app-sidebar {
+    display: none !important;
+  }
+
+  .app-navbar {
+    display:  none !important;
+  }
+}
+
+
+/* Custom Soft Clean Table Style */
+.table-clean {
+  --bs-table-striped-bg: rgba(11, 6, 6, 0.030); /* Stripe abu-abu sangat tipis */
+}
+
+.table-clean thead {
+  background-color: #f8f9fa; /* Soft off-white / light gray */
+  border-bottom: 2px solid #040404;
+}
+
+.table-clean thead th {
+  color: #080808; /* Warna teks abu-abu gelap soft */
+  font-weight: 600;
+  font-size: 0.8125rem; /* Teks header sedikit lebih kecil & rapi */
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.tab-item-printed {
+  font-size: 12px !important;
+  --bs-table-striped-bg: rgba(11, 6, 6, 0.030);
+}
+
+.tab-item-printed tbody td{
+  padding: 2px !important;
+}
+
+.tab-item-printed thead {
+  background-color: #f8f9fa; /* Soft off-white / light gray */
+  border-bottom: 2px solid #040404;
+}
+
+.tab-item-printed thead th{
+  padding: 3px !important;
+}
+
+.address-detail-header {
+  font-size: 12px !important;
+}
+
+.text-bg-request-cancel {
+  color: #f3f3f5;
+  background-color: #eb3131;
+}
+
+.detail-withdrawal-section-customer {
+  font-size: 16px;
+}

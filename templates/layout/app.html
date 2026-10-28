@@ -1,0 +1,135 @@
+{% load static %}
+{% load compress %}
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Sistem ----{% endblock %}</title>
+
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap-5.3.8.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/datatables-3.0.2.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link href="{% static 'css/tom-select.bootstrap5.min.css' %}" rel="stylesheet">
+    {% endcompress %}
+
+    {% block extra_head %}{% endblock %}
+
+    {% compress js %}
+    <script src="{%  static 'js/htmx.min.js' %}"></script>
+    <script defer src="{%  static 'js/cdn.min.js' %}"></script>
+
+    <script src="{%  static 'js/jquery-3.6.0.min.js' %}"></script>
+    {% endcompress %}
+
+    <link rel="shortcut icon" href="{%  static 'images/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="{% static 'css/tom-select.bootstrap5.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body hx-boost="true" hx-target="#main-content" hx-select="#main-content">
+    {% block layout %}
+    <div class="app-layout d-flex">
+      {% block sidebar %}
+      <aside id="appSidebar" class="app-sidebar d-none d-lg-flex flex-column">
+        <a class="app-brand row align-items-center gap-1 justify-content-center pt-5" href="{% url "" %}" >
+          <img src="{%  static 'images/logo.png' %}" alt="" srcset="" width=100>
+          <span class="w-100 justify-content-center d-flex font-monospace">'Sistem ---'</span>
+        </a>
+
+        <nav class="app-nav flex-grow-1 p-3">
+          {% block sidebar_links %}
+            {% include "layout/sidebar.html" %}
+          {% endblock %}
+        </nav>
+
+        <div class="app-sidebar-user border-top">
+          {% block sidebar_user %}
+            {% if request.user.is_authenticated %}
+            <div class="d-flex align-items-center gap-2 px-3 py-3">
+              <div class="avatar">{{ request.user.username|make_list|first|upper }}</div>
+              <div class="flex-grow-1 text-truncate">
+                <div class="small fw-semibold">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="small text-secondary">@{{ request.user.username }}</div>
+              </div>
+              <form method="post" action="{% url 'users:logout' %}" hx-boost="false">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger d-flex align-items-center px-2" title="Logout">
+                  <i class="bi bi-box-arrow-right"></i>
+                </button>
+              </form>
+            </div>
+            {% else %}
+            <a class="d-flex align-items-center gap-2 px-3 py-3 text-decoration-none text-reset" href="{% url 'users:login' %}">
+              {% include "layout/partials/icon.html" with name="user" %}
+              <span>Login</span>
+            </a>
+            {% endif %}
+          {% endblock %}
+        </div>
+      </aside>
+      {% endblock %}
+
+      <div class="app-main" id="main-content">
+        {% block navbar %}
+        <nav class="app-navbar d-flex align-items-center gap-3">
+          <a class="app-brand d-lg-none" href="{% url '' %}">
+            <span class="w-100 justify-content-center d-flex font-monospace">Sistem ----</span>
+          </a>
+          <div class="d-none d-lg-block fw-semibold">{% block page_title %}{% endblock %}</div>
+          <div class="ms-auto d-flex align-items-center gap-2">
+            {% block navbar_actions %}
+              {% include "layout/navbar.html" %}
+            {% endblock %}
+          </div>
+        </nav>
+        {% endblock %}
+
+        <div class="app-content" >
+          {% if messages %}
+          <div class="mb-3 no-print">
+            {% for message in messages %}
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags|default:'info' }}{% endif %} alert-dismissible fade show py-2 small mb-2" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {% block content %}{% endblock content %}
+        </div>
+      </div>
+    </div>
+
+    {% block bottombar %}
+    <nav id="appBottombar" class="app-bottombar d-lg-none no-print">
+      <div class="bottombar-nav">
+        {% block bottombar_links %}
+          {% include "layout/bottombar.html" %}
+        {% endblock %}
+      </div>
+    </nav>
+    {% endblock %}
+    {% endblock %}
+
+
+  </body>
+
+  <script src="{% static 'js/tom-select.complete.min.js' %}"></script>
+
+  {% compress js %}
+  <script src="{% static 'js/main.js' %}"></script>
+  <script src="{%  static 'js/datatables-3.0.2.min.js' %}"></script>
+
+  <script src="{%  static 'js/popper.min.js' %}"></script>
+  <script src="{%  static 'js/bootstrap-5.3.8.min.js' %}"></script>
+ 
+  {% endcompress %}
+
+  {% block extra_js %}{% endblock %}
+
+  
+</html>

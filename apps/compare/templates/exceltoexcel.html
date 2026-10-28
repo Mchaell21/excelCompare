@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Komparasi Stok Excel vs Excel</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5.3 CSS & Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        /* Navbar & Header */
+        .app-header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 2.5rem 0 3.5rem 0;
+            color: white;
+            margin-bottom: -2rem;
+        }
+
+        /* Card Styling */
+        .card-custom {
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+            background: #ffffff;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Drag and Drop Zone */
+        .upload-dropzone {
+            border: 2px dashed #cbd5e1;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: #f8fafc;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-dropzone:hover {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+
+        /* Stat Cards */
+        .stat-card {
+            border-radius: 0.875rem;
+            padding: 1.25rem;
+            background: white;
+            border-left: 5px solid transparent;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .stat-card.total { border-left-color: #64748b; }
+        .stat-card.kurang { border-left-color: #ef4444; }
+        .stat-card.lebih { border-left-color: #10b981; }
+        .stat-card.setara { border-left-color: #94a3b8; }
+
+        /* Table Styling */
+        .table-responsive {
+            border-radius: 0.75rem;
+            overflow: hidden;
+        }
+
+        .table thead {
+            background-color: #1e293b;
+            color: #f8fafc;
+        }
+
+        .table th {
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 1rem;
+        }
+
+        .table td {
+            padding: 0.875rem 1rem;
+            vertical-align: middle;
+        }
+
+        /* Filter Pills */
+        .nav-pills .nav-link {
+            border-radius: 0.5rem;
+            font-weight: 500;
+            color: #64748b;
+            padding: 0.4rem 1rem;
+        }
+        .nav-pills .nav-link.active {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        /* Block Merah & Hijau untuk Selisih */
+        tr.row-kurang > td {
+            background-color: #dc3545 !important;
+            color: #ffffff !important;
+        }
+        tr.row-kurang .item-name { color: #ffffff !important; }
+        tr.row-kurang .badge {
+            background-color: #ffffff !important;
+            color: #dc3545 !important;
+            font-weight: 700;
+        }
+
+        tr.row-lebih > td {
+            background-color: #198754 !important;
+            color: #ffffff !important;
+        }
+        tr.row-lebih .item-name { color: #ffffff !important; }
+        tr.row-lebih .badge {
+            background-color: #ffffff !important;
+            color: #198754 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header Banner -->
+<header class="app-header">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <div>
+                <h3 class="fw-bold mb-1">Komparator Stok Excel vs Excel</h3>
+            </div>
+            <a href="{% url 'landing_page' %}" class="btn btn-outline-light btn-sm mb-3">
+                <i class="bi bi-arrow-left me-1"></i> Kembali ke Menu Utama
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="container py-4">
+
+    <!-- Card Form Upload 2 File -->
+    <div class="row justify-content-center mb-4">
+        <div class="col-lg-10">
+            <div class="card card-custom p-4">
+                <form method="POST" enctype="multipart/form-data" id="uploadForm">
+                    {% csrf_token %}
+                    
+                    <label class="form-label fw-bold mb-3 text-dark">
+                        <i class="bi bi-cloud-arrow-up me-1 text-primary"></i> Upload Kedua File Laporan Excel
+                    </label>
+
+                    <div class="row g-3 mb-3">
+                        <!-- File Opname (Fisik) -->
+                        <div class="col-md-6">
+                            <div class="upload-dropzone" onclick="document.getElementById('excel_file').click()">
+                                <i class="bi bi-file-earmark-spreadsheet fs-2 text-primary mb-1 d-block"></i>
+                                <span class="fw-bold small d-mb-1 text-dark">1. File Excel Opname (Fisik)</span>
+                                <span class="badge bg-light text-secondary border px-2 py-1 small d-block mt-2 text-truncate" id="file-name-display-1">Belum ada file dipilih</span>
+                                <input type="file" id="excel_file" name="excel_file" accept=".xlsx, .xls" class="d-none" required>
+                            </div>
+                        </div>
+
+                        <!-- File Sistem (QuickBooks) -->
+                        <div class="col-md-6">
+                            <div class="upload-dropzone" onclick="document.getElementById('system_file').click()">
+                                <i class="bi bi-file-earmark-text fs-2 text-success mb-1 d-block"></i>
+                                <span class="fw-bold small d-mb-1 text-dark">2. File Excel Sistem (QuickBooks)</span>
+                                <span class="badge bg-light text-secondary border px-2 py-1 small d-block mt-2 text-truncate" id="file-name-display-2">Belum ada file dipilih</span>
+                                <input type="file" id="system_file" name="system_file" accept=".xlsx, .xls" class="d-none" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center justify-content-between bg-light p-3 rounded-3 mb-3 border">
+                        <div class="d-flex align-items-center gap-2 text-muted small">
+                            <i class="bi bi-info-circle-fill text-primary fs-5"></i>
+                            <span>File Opname dibaca dari <strong>Kolom A</strong> & <strong>Kolom L</strong> (Mulai baris 20). File Sistem mendeteksi otomatis kolom <strong>ItemFullName</strong>.</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 fw-semibold shadow-sm" id="submitBtn">
+                        <i class="bi bi-lightning-charge-fill me-1"></i> Proses & Bandingkan Kedua Excel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Messages (Tanpa csrf_token yang nyasar) -->
+    {% if messages %}
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show border-0 shadow-sm" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Result Dashboard -->
+    {% if results %}
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                
+                <!-- Summary Cards Row -->
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card total card-custom">
+                            <span class="text-muted small fw-medium">Total Item</span>
+                            <h3 class="fw-bold mb-0 text-dark">{{ summary.total }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card kurang card-custom">
+                            <span class="text-danger small fw-medium">Item Kurang</span>
+                            <h3 class="fw-bold mb-0 text-danger">{{ summary.kurang }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card lebih card-custom">
+                            <span class="text-success small fw-medium">Item Lebih</span>
+                            <h3 class="fw-bold mb-0 text-success">{{ summary.lebih }}</h3>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="stat-card setara card-custom">
+                            <span class="text-secondary small fw-medium">Setara</span>
+                            <h3 class="fw-bold mb-0 text-secondary">{{ summary.setara }}</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Container Card -->
+                <div class="card card-custom p-4">
+                    
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                        <!-- Filter Pills -->
+                        <ul class="nav nav-pills gap-1" id="filterPills">
+                            <li class="nav-item"><button class="nav-link active" data-filter="all">Semua Data</button></li>
+                            <li class="nav-item"><button class="nav-link text-danger" data-filter="kurang">Kurang</button></li>
+                            <li class="nav-item"><button class="nav-link text-success" data-filter="lebih">Lebih</button></li>
+                            <li class="nav-item"><button class="nav-link text-secondary" data-filter="setara">Setara</button></li>
+                        </ul>
+
+                        <!-- Live Search Input -->
+                        <div class="input-group" style="max-width: 280px;">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                            <input type="text" id="searchInput" class="form-control bg-light border-start-0" placeholder="Cari nama item...">
+                        </div>
+                    </div>
+
+                    <!-- Table Data -->
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" id="comparisonTable">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">#</th>
+                                    <th>ItemFullName</th>
+                                    <th class="text-center" style="width: 90px;">Qty Opname</th>
+                                    <th class="text-center" style="width: 75px;">QOH</th>
+                                    <th class="text-center" style="width: 75px;">QOSO</th>
+                                    <th class="text-center" style="width: 75px;">QAQB</th>
+                                    <th class="text-center" style="width: 90px;">Total Sistem</th>
+                                    <th class="text-center" style="width: 85px;">Selisih</th>
+                                    <th class="text-center" style="width: 100px;">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in results %}
+                                    <tr class="item-row {% if row.status == 'kurang' %}row-kurang{% elif row.status == 'lebih' %}row-lebih{% endif %}" data-status="{{ row.status }}">
+                                        <td class="text-center">{{ forloop.counter }}</td>
+                                        <td class="fw-semibold item-name">{{ row.item_name }}</td>
+                                        <td class="text-center fw-medium">{{ row.excel_qty }}</td>
+                                        <td class="text-center">{{ row.qoh }}</td>
+                                        <td class="text-center">{{ row.qoso }}</td>
+                                        <td class="text-center">{{ row.qaqb }}</td>
+                                        <td class="text-center fw-bold">{{ row.system_qty }}</td>
+                                        <td class="text-center fw-bold">
+                                            {% if row.diff > 0 %}+{{ row.diff }}{% else %}{{ row.diff }}{% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            {% if row.status == 'kurang' %}
+                                                <span class="badge px-2 py-1 shadow-sm"><i class="bi bi-arrow-down-short"></i> Kurang</span>
+                                            {% elif row.status == 'lebih' %}
+                                                <span class="badge px-2 py-1 shadow-sm"><i class="bi bi-arrow-up-short"></i> Lebih</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary-subtle text-secondary border px-2 py-1">Sama</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="noDataAlert" class="text-center py-4 d-none">
+                        <i class="bi bi-search text-muted fs-2 d-block mb-2"></i>
+                        <p class="text-muted mb-0">Tidak ada item yang cocok dengan filter / kata kunci pencarian.</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+
+</main>
+
+<!-- Bootstrap 5.3 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // --- File Input Name Display Handlers ---
+    const fileInput1 = document.getElementById('excel_file');
+    const fileNameDisplay1 = document.getElementById('file-name-display-1');
+    fileInput1.addEventListener('change', () => {
+        if (fileInput1.files.length > 0) {
+            fileNameDisplay1.textContent = fileInput1.files[0].name;
+            fileNameDisplay1.className = "badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 small d-block mt-2 text-truncate";
+        }
+    });
+
+    const fileInput2 = document.getElementById('system_file');
+    const fileNameDisplay2 = document.getElementById('file-name-display-2');
+    fileInput2.addEventListener('change', () => {
+        if (fileInput2.files.length > 0) {
+            fileNameDisplay2.textContent = fileInput2.files[0].name;
+            fileNameDisplay2.className = "badge bg-success-subtle text-success border border-success-subtle px-2 py-1 small d-block mt-2 text-truncate";
+        }
+    });
+
+    // --- Loading State on Submit ---
+    document.getElementById('uploadForm').addEventListener('submit', function() {
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true;
+        btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2" role="status"></span> Memproses dan Membandingkan Kedua File Excel...`;
+    });
+
+    // --- Live Search & Filter Table Rows ---
+    const searchInput = document.getElementById('searchInput');
+    const filterPills = document.querySelectorAll('#filterPills .nav-link');
+    const rows = document.querySelectorAll('.item-row');
+    const noDataAlert = document.getElementById('noDataAlert');
+    let currentFilter = 'all';
+
+    if (searchInput && rows.length > 0) {
+        searchInput.addEventListener('keyup', filterTable);
+
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', function() {
+                filterPills.forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                filterTable();
+            });
+        });
+
+        function filterTable() {
+            const query = searchInput.value.toLowerCase().trim();
+            let visibleCount = 0;
+
+            rows.forEach(row => {
+                const name = row.querySelector('.item-name').textContent.toLowerCase();
+                const status = row.getAttribute('data-status');
+
+                const matchesSearch = name.includes(query);
+                const matchesStatus = (currentFilter === 'all') || (status === currentFilter);
+
+                if (matchesSearch && matchesStatus) {
+                    row.classList.remove('d-none');
+                    visibleCount++;
+                } else {
+                    row.classList.add('d-none');
+                }
+            });
+
+            if (visibleCount === 0) {
+                noDataAlert.classList.remove('d-none');
+            } else {
+                noDataAlert.classList.add('d-none');
+            }
+        }
+    }
+</script>
+
+</body>
+</html>

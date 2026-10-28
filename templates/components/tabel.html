@@ -1,0 +1,66 @@
+{% comment %}
+Komponen tabel (server-rendered, opsional DataTables) + mode mobile otomatis.
+
+Pemakaian:
+  {% table_columns as cols %}
+    {% column label="No. SO" key="sales_order_number" %}
+    {% column label="Status" cell="pages/deposit/_cell_status.html" %}
+    {% column label="" cell="pages/deposit/_cell_action.html" %}
+  {% endtable_columns %}
+  {% include "components/tabel.html" with columns=cols rows=rows datatable=True
+       empty_text="Belum ada data." %}
+
+- columns: daftar kolom ({label, key?, cell?, class?, head_class?, fmt?}).
+  - key  : path nilai (bisa bersarang, mis. "customer.full_name") → filter get_item.
+  - cell : nama template partial untuk isi sel khusus (dikirimi `row` & `col`).
+  - class: class tambahan pada <td> (mis. "text-end", "font-monospace small").
+  - head_class: class tambahan pada <th> (default kosong).
+  - fmt  : "date" / "datetime" untuk memformat tanggal bawaan.
+- rows: list objek/dict.
+- datatable: True → aktifkan DataTables via .table-datatable (main.js).
+- mobile: True (default) → pada layar < md tabel otomatis tampil sebagai kartu
+  (tiap <td> diberi data-label; lihat main.css .tabel-mobile).
+- empty_text: teks saat tidak ada data.
+{% endcomment %}
+{% load additional_tags %}
+
+<div class="tabel-component{% if mobile is not False %} tabel-mobile{% endif %} p-3">
+  <div class="table-responsive">
+    <table class="table table-striped table-clean align-middle mb-0{% if datatable %} table-datatable{% endif %}"
+          {% if datatable_url %}
+            data-server-side="true"
+            data-ajax-url="{{ datatable_url }}"
+          {% endif %}>
+      <thead>
+        <tr>
+          {% for col in columns %}
+          <th scope="col"
+              {% if col.head_class %} class="{{ col.head_class }}"{% endif %}
+              data-key="{{ col.key|default:'' }}"
+              data-fmt="{{ col.fmt|default:'' }}"
+              data-cell="{{ col.cell|default:'' }}"
+              data-class="{{ col.class|default:'' }}"
+              data-orderable="{% if col.orderable is False %}false{% else %}true{% endif %}">
+            {{ col.label }}
+          </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% if not datatable_url %}
+        {% if rows %}
+        {% for row in rows %}
+        <tr>
+          {% for col in columns %}
+          <td{% if col.class %} class="{{ col.class }}"{% endif %} data-label="{{ col.label }}">
+            {% include "components/_cell.html" with row=row col=col %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+        {% endif %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>

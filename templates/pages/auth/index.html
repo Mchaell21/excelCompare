@@ -1,0 +1,94 @@
+{% extends "layout/app.html" %} 
+{% block title %}Login Page{% endblock %} 
+{% load static %}
+
+{% block layout %}
+<main class="d-flex align-items-center justify-content-center min-vh-100 bg-light p-3">
+  <div class="col-12 col-sm-10 col-md-7 col-lg-4 col-xl-4">
+    <!-- Card Utama -->
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+      
+      <!-- HEADER BANNER GELAP (Khusus Logo Putih) -->
+      <div class="bg-gradient text-white text-center py-4 px-3 position-relative" style="background-color: #1f2937;">
+        <a href="{% url 'users:login' %}" class="text-decoration-none text-white d-inline-block">
+          <!-- Logo Putih -->
+          <img src="{% static 'images/logo.png' %}" alt="Logo Sistem" width="150" class="img-fluid mb-0 drop-shadow">
+        </a>
+      </div>
+
+      <!-- BODY CARD -->
+      <div class="card-body p-4">
+        <div class="text-center mb-4">
+          <h4 class="fw-bold mb-1 text-dark">Selamat Datang</h4>
+          <p class="text-muted small m-0">Silakan masuk ke akun Anda untuk melanjutkan</p>
+        </div>
+
+        <!-- Alert Flash Messages (Info/Success/Error) -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show py-2 px-3 small mb-3" role="alert">
+              <i class="bi bi-info-circle me-1"></i> {{ message }}
+              <button type="button" class="btn-close py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <!-- Alert Error Form -->
+        {% if form.errors %}
+          <div class="alert alert-danger py-2 px-3 small mb-3 d-flex align-items-center">
+            <i class="bi bi-exclamation-triangle-fill me-2 fs-6"></i>
+            <div>Username atau password salah. Silakan coba lagi.</div>
+          </div>
+        {% endif %} 
+        
+        <!-- Partial Form Utama (Password) -->
+        {% include "pages/auth/partials/login_form.html" %}
+
+        <!-- Separator & Opsi Alternatif OTP Telegram -->
+        <div class="position-relative text-center my-4">
+          <hr class="text-muted opacity-25">
+          <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 small text-muted">atau</span>
+        </div>
+
+        <div>
+          <button type="button" class="btn btn-outline-success w-100 py-2 d-flex align-items-center justify-content-center gap-2" data-bs-toggle="modal" data-bs-target="#otpRequestModal">
+            <i class="bi bi-telegram fs-5"></i>
+            <span class="fw-medium">Masuk via OTP Telegram</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+    
+    <!-- Footer Copyright Opsional -->
+    <p class="text-center text-muted small mt-3">&copy; {% now "Y" %} Sistem ---. All rights reserved.</p>
+  </div>
+</main>
+
+<!-- Modal Input Username untuk Minta OTP -->
+<div class="modal fade" id="otpRequestModal" tabindex="-1" aria-labelledby="otpRequestModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-content border-0 shadow">
+      <div class="modal-header bg-light border-0 py-2">
+        <h6 class="modal-title fw-bold" id="otpRequestModalLabel">
+          <i class="bi bi-telegram text-success me-1"></i> Login OTP Telegram
+        </h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="{% url 'users:request_otp' %}" hx-boost="false">
+        {% csrf_token %}
+        <div class="modal-body py-3">
+          <p class="small text-muted mb-3">Kode OTP 6-digit akan dikirimkan ke akun Telegram yang telah terhubung.</p>
+          <div class="mb-2">
+            <label class="form-label small fw-semibold text-dark">Username Akun</label>
+            <input type="text" name="username" class="form-control" required placeholder="Masukkan username Anda" autocomplete="username">
+          </div>
+        </div>
+        <div class="modal-footer border-0 pt-0">
+          <button type="submit" class="btn btn-success w-100 fw-medium">Kirim Kode OTP</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

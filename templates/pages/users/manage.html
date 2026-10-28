@@ -1,0 +1,97 @@
+{% extends "layout/app.html" %}
+{% load additional_tags %}
+
+{% block title %}Kelola Pengguna{% endblock %}
+{% block page_title %}Kelola Pengguna{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-4">
+  <a href="{% url 'users:user_create' %}" class="btn btn-primary d-inline-flex align-items-center gap-2">
+    {% include "layout/partials/icon.html" with name="plus" %}
+    Buat Pengguna Baru
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover table-datatable align-middle mb-0 table-clean  table-striped">
+      <thead>
+        <tr>
+          <th class="small">Nama</th>
+          <th class="small">Username</th>
+          <th class="small">Role</th>
+          <th class="small">Status</th>
+          <th class="small">Terakhir Login</th>
+          <th class="text-end small">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td class="small">{{ r.user.get_full_name|default:"-" }}</td>
+          <td class="font-monospace small">
+            {{ r.user.username }}
+            {% if r.user.is_superuser %}
+            <span class="badge text-bg-dark ms-1 small">Superadmin</span>
+            {% endif %}
+            {% if r.is_self %}
+            <span class="badge text-bg-light text-secondary border ms-1 small">Anda</span>
+            {% endif %}
+          </td>
+          <td class="small">
+            {% if r.editable %}
+            <form method="post" action="{% url 'users:user_change_role' r.user.id %}"
+                  class="d-flex align-items-center gap-2" data-disable-on-submit>
+              {% csrf_token %}
+              
+              <select name="role" class="form-select form-select-sm w-auto">
+                <option  value="" {% if not r.role_display or r.role_display == "—" %}selected{% endif %}>Tanpa role</option>
+                {% for role in active_roles %}
+                <option value="{{ role }}" {% if r.role_display == role %}selected{% endif %}>{{ role }}</option>
+                {% endfor %}
+              </select>
+              <button type="submit" class="btn btn-sm btn-outline-primary">Simpan</button>
+            </form>
+            {% else %}
+            <span>{{ r.role_display }}</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if r.user.is_active %}
+            <span class="badge text-bg-success">Aktif</span>
+            {% else %}
+            <span class="badge text-bg-danger">Nonaktif</span>
+            {% endif %}
+          </td>
+          <td class="small text-muted">{{ r.user.last_login|date:"d M Y H:i"|default:"Belum pernah" }}</td>
+          <td class="text-end">
+            {% if r.editable %}
+            <div class="d-inline-flex gap-1">
+              <form method="post" action="{% url 'users:user_toggle_active' r.user.id %}" data-disable-on-submit>
+                {% csrf_token %}
+                {% if r.user.is_active %}
+                <button type="submit" class="btn btn-sm btn-outline-danger" title="Nonaktifkan">Nonaktifkan</button>
+                {% else %}
+                <button type="submit" class="btn btn-sm btn-outline-success" title="Aktifkan">Aktifkan</button>
+                {% endif %}
+              </form>
+              <a href="{% url 'users:user_edit' r.user.id %}"
+                 class="btn btn-sm btn-outline-secondary" style="height: fit-content;">Ubah</a>
+              <a href="{% url 'users:user_reset_password' r.user.id %}"
+                 class="btn btn-sm btn-outline-secondary fs-8">Reset Password</a>
+            </div>
+            {% else %}
+            <span class="text-muted small">—</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="text-center text-muted py-4">Belum ada user.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% comment %}
+Aksi bawaan untuk navbar (bagian kanan).
+App bisa mengganti dengan meng-override block `navbar_actions` pada layout/app.html,
+misal menambahkan tombol Profil:
+  <a class="btn btn-outline-secondary btn-sm" href="{% url 'users:profile' %}">
+    Profil
+  </a>
+{% endcomment %}
+{% if request.user.is_authenticated %}
+  <div class="d-none d-md-flex align-items-center text-secondary small">
+    <!-- Username -->
+    <div class="d-flex flex-column align-items-start lh-sm">
+      <!-- Username -->
+      <span class="fw-semibold text-truncate max-w-150 text-dark" title="{{ request.user.get_full_name|default:request.user.username }}">
+        {{ request.user.get_full_name|default:request.user.username }}
+      </span>
+
+      <!-- Status Role (Badge) -->
+      {% if request.user.is_superuser %}
+        <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          Superadmin
+        </span> 
+      {% elif  is_sales_admin %}
+        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          Sales Admin
+        </span>
+      {% elif is_dispatch %}
+        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          Dispatch
+        </span>
+      
+      {% elif is_manager %}
+        <span class="badge bg-warning-subtle text-danger border border-danger-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          Manager
+        </span>
+      {% elif is_accounting %}
+        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          Accounting
+        </span>
+      {% else %}
+        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
+          User
+        </span>
+      {% endif %}
+    </div>
+    
+
+    <!-- Pemisah Vertikal Bawaan Bootstrap -->
+    <div class="vr mx-3 opacity-50 my-auto" style="height: 2.25rem;"></div>
+
+    <!-- Jam dengan Font Monospace agar angka tidak bergeser saat detik berjalan -->
+    <div id="jam" class="font-monospace text-body-secondary fw-medium">
+      00:00:00
+    </div>
+  </div>
+  
+  <form method="post" action="{% url 'users:logout' %}" class="m-0 d-lg-none" hx-boost="false">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1" title="Logout">
+      <i class="bi bi-box-arrow-right"></i>
+      <span class="d-none d-sm-inline">Logout</span>
+    </button>
+  </form>
+{% else %}
+  <a class="btn btn-primary btn-sm" href="{% url 'users:login' %}">Login</a>
+{% endif %}

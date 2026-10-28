@@ -1,0 +1,82 @@
+{% extends "layout/app.html" %}
+{% block title %}Verifikasi OTP - Sistem ---{% endblock %}
+
+
+{% load static %}
+
+{% block layout %}
+<main class="d-flex align-items-center justify-content-center min-vh-100 bg-light p-3">
+  <div class="col-12 col-sm-10 col-md-7 col-lg-4 col-xl-4">
+    <!-- Card Utama -->
+    <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+      
+      <!-- HEADER BANNER GELAP (Khusus Logo Putih) -->
+      <div class="bg-gradient text-white text-center py-4 px-3 position-relative"  style="background-color: #1f2937;">
+        <a href="{% url 'users:login' %}" class="text-decoration-none text-white d-inline-block" hx-boost="false" >
+          <!-- Logo Putih -->
+          <img src="{% static 'images/logo.png' %}" alt="Logo Sistem" width="150" class="img-fluid mb-0">
+        </a>
+      </div>
+
+      <!-- BODY CARD -->
+      <div class="card-body p-4 text-center">
+        
+        <div class="mb-4">
+          <h4 class="fw-bold mb-1 text-dark">Verifikasi OTP</h4>
+          <p class="text-muted small m-0">
+            Kode OTP 6-digit telah dikirimkan ke akun <b class="text-dark">Telegram</b> Anda
+          </p>
+        </div>
+
+        <!-- Alert Flash Messages -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show py-2 px-3 small mb-3 text-start text-bg-secondary" role="alert">
+              <i class="bi bi-info-circle me-1"></i> {{ message }}
+              <button type="button" class="btn-close py-auto btn-sm small" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <!-- Form Input OTP -->
+        <form method="post" action="{% url 'users:login_otp' %}" hx-boost="false">
+          {% csrf_token %}
+          
+          <div class="mb-4">
+            <label class="form-label small fw-semibold text-muted mb-2">Masukkan Kode OTP</label>
+            <input 
+              type="text" 
+              name="otp_code" 
+              class="form-control text-center fs-2 fw-bold tracking-widest py-2 rounded-3 border-2 border-primary" 
+              maxlength="6" 
+              placeholder="••••••" 
+              required 
+              autofocus 
+              autocomplete="one-time-code"
+              inputmode="numeric"
+              pattern="[0-9]*"
+            >
+            <div class="form-text small mt-2">
+              <i class="bi bi-clock me-1"></i> Kode berlaku selama 5 menit
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-2 fw-medium mb-3">
+            Verifikasi & Login <i class="bi bi-arrow-right short-icon ms-1"></i>
+          </button>
+        </form>
+
+        <div class="border-top pt-3 mt-2">
+          <a href="{% url 'users:login' %}" class="small text-decoration-none text-secondary d-inline-flex align-items-center gap-1" hx-boost="false">
+            <i class="bi bi-arrow-left"></i> Kembali ke Login Utama
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Footer Copyright -->
+    <p class="text-center text-muted small mt-3">&copy; {% now "Y" %} Sistem ----. All rights reserved.</p>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% comment %}
+Rendering isi satu sel tabel (dipakai components/tabel.html).
+
+- col.cell   : (opsional) nama template partial khusus → include dengan row & col.
+- col.fmt    : "date" / "datetime" untuk format tanggal default.
+- Selain itu : nilai kolom via filter get_item (mendukung key bersarang).
+{% endcomment %}
+{% load additional_tags %}
+{% load humanize %}
+
+{% if col.cell %}
+  {% include col.cell with row=row col=col %}
+{% elif col.fmt == "date" %}
+  {{ row|get_item:col.key|date:"d M Y"|default:"-" }}
+{% elif col.fmt == "datetime" %}
+  {{ row|get_item:col.key|date:"d M Y H:i"|default:"-" }}
+{% elif col.fmt == 'idr' %}
+  Rp {{ row|get_item:col.key|intcomma|default:"0" }}
+{% elif col.fmt == 'usd' %}
+  $ {{ row|get_item:col.key|intcomma|default:"0.00" }}
+{% else %}
+  {{ row|get_item:col.key|default:"-" }}
+{% endif %}

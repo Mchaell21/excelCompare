@@ -1,0 +1,15 @@
+env
+venv
+.env
+*.sqlite3
+
+__pycache__
+CACHE
+**.conf
+*.conf
+
+backups
+*docker-compose.yml
+*.yml
+
+media
