@@ -167,18 +167,15 @@ def compare_exceltoexcel(request):
             return render(request, 'exceltoexcel.html', {'results': results, 'summary': summary})
 
         try:
-            # ==========================================
-            # 1. BACA FILE EXCEL 1 (DATA OPNAME / FISIK) - PATOKAN UTAMA
-            # ==========================================
             excel_file.seek(0)
             df_opname = pd.read_excel(excel_file, header=None)
             
             opname_dict = {}
-            start_row = 20  # Baris mulai data fisik (baris ke-21 di Excel)
+            start_row = 20  
 
             for idx in range(start_row, len(df_opname)):
-                val_b = df_opname.iloc[idx, 0]   # Kolom A (Nama Item)
-                val_l = df_opname.iloc[idx, 11]  # Kolom L (Qty Excel / Fisik)
+                val_b = df_opname.iloc[idx, 0]   
+                val_l = df_opname.iloc[idx, 11]  
 
                 if pd.isna(val_b) or str(val_b).strip() == "":
                     continue
@@ -197,13 +194,9 @@ def compare_exceltoexcel(request):
                 messages.warning(request, "Tidak ada data item ditemukan pada File Opname mulai baris ke-20.")
                 return render(request, 'exceltoexcel.html', {'results': results, 'summary': summary})
 
-            # ==========================================
-            # 2. BACA FILE EXCEL 2 (DATA SISTEM / QUICKBOOKS)
-            # ==========================================
             system_file.seek(0)
             df_sys_raw = pd.read_excel(system_file, header=None)
-            
-            # Deteksi otomatis baris header yang memiliki kolom 'ItemFullName'
+        
             header_row_idx = 0
             for idx in range(len(df_sys_raw)):
                 row_vals = [str(val).strip() for val in df_sys_raw.iloc[idx].values]
@@ -221,13 +214,12 @@ def compare_exceltoexcel(request):
                 if pd.isna(raw_name) or str(raw_name).strip() == "":
                     continue
                 
-                # AMBIL NAMA SETELAH TITIK DUA (:) KEDUA KALI
                 name_str = str(raw_name).strip()
                 parts = name_str.split(':', 2)
                 if len(parts) >= 3:
-                    item_name = parts[2].strip()  # Mengambil bagian setelah colon kedua
+                    item_name = parts[2].strip()  
                 else:
-                    item_name = name_str  # Fallback jika tidak sampai dua colon
+                    item_name = name_str  
 
                 def safe_float(val):
                     try:
@@ -240,7 +232,6 @@ def compare_exceltoexcel(request):
                 qaqb = safe_float(row.get('QAQB', 0))
                 qatota = safe_float(row.get('QATOTA', qoh + qoso + qaqb))
 
-                # Hanya simpan ke map sistem jika namanya ada di dalam data opname (efisiensi)
                 system_map[item_name] = {
                     'qoh': int(qoh) if qoh.is_integer() else qoh,
                     'qoso': int(qoso) if qoso.is_integer() else qoso,
@@ -248,11 +239,7 @@ def compare_exceltoexcel(request):
                     'qatota': int(qatota) if qatota.is_integer() else qatota,
                 }
 
-            # ==========================================
-            # 3. PROSES PERBANDINGAN BERDASARKAN PATOKAN OPNAME
-            # ==========================================
             for name, excel_qty in opname_dict.items():
-                # Ambil data dari sistem berdasarkan nama item opname
                 sys_data = system_map.get(name, {'qoh': 0, 'qoso': 0, 'qaqb': 0, 'qatota': 0})
                 
                 qoh = sys_data['qoh']
@@ -260,7 +247,7 @@ def compare_exceltoexcel(request):
                 qaqb = sys_data['qaqb']
                 system_qty = sys_data['qatota']
                 
-                diff = system_qty - excel_qty  # Selisih (Sistem - Fisik)
+                diff = system_qty - excel_qty 
 
                 if diff < 0:
                     status = 'kurang'    

@@ -41,16 +41,13 @@
 <body>
 
 <div class="container py-5">
-    <!-- Header -->
     <div class="text-center mb-5">
         <h2 class="fw-bold text-dark">Pilih Mode Komparasi</h2>
         <p class="text-muted">Silakan pilih metode pencocokan data yang ingin kamu lakukan</p>
     </div>
 
-    <!-- Options Cards -->
     <div class="row justify-content-center g-4">
         
-        <!-- Opsi 1: Excel to Excel -->
         <div class="col-md-5 col-lg-4">
             <a href="{% url 'compare_excel_excel' %}" class="text-decoration-none">
                 <div class="card option-card h-100 p-4 text-center shadow-sm">
@@ -59,14 +56,14 @@
                             <div class="icon-box bg-success-subtle text-success fs-2">
                                 <i class="bi bi-file-earmark-excel-fill"></i>
                             </div>
-                            <h4 class="fw-bold text-dark mb-2">Excel vs Excel</h4>
+                            <h4 class="fw-bold text-dark mb-2">Excel to Excel</h4>
                             <p class="text-muted small">
                                 Bandingkan dua file Excel secara langsung untuk mengecek selisih kuantitas atau data produk.
                             </p>
                         </div>
                         <div class="mt-4">
                             <span class="btn btn-outline-success w-100 rounded-pill fw-semibold">
-                                Pilih Excel vs Excel <i class="bi bi-arrow-right ms-1"></i>
+                                Pilih Excel to Excel <i class="bi bi-arrow-right ms-1"></i>
                             </span>
                         </div>
                     </div>
@@ -74,7 +71,6 @@
             </a>
         </div>
 
-        <!-- Opsi 2: Excel to API -->
         <div class="col-md-5 col-lg-4">
             <a href="{% url 'compare_excel_api' %}" class="text-decoration-none">
                 <div class="card option-card h-100 p-4 text-center shadow-sm">
@@ -83,14 +79,14 @@
                             <div class="icon-box bg-primary-subtle text-primary fs-2">
                                 <i class="bi bi-cloud-arrow-up-fill"></i>
                             </div>
-                            <h4 class="fw-bold text-dark mb-2">Excel vs API</h4>
+                            <h4 class="fw-bold text-dark mb-2">Excel to API</h4>
                             <p class="text-muted small">
                                 Upload file Excel dan bandingkan stok/kuantitasnya secara otomatis dengan data real-time dari API database.
                             </p>
                         </div>
                         <div class="mt-4">
                             <span class="btn btn-primary w-100 rounded-pill fw-semibold">
-                                Pilih Excel vs API <i class="bi bi-arrow-right ms-1"></i>
+                                Pilih Excel to API <i class="bi bi-arrow-right ms-1"></i>
                             </span>
                         </div>
                     </div>
