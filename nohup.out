@@ -403,3 +403,113 @@ Quit the server with CONTROL-C.
 WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
 For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
 Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Watching for file changes with StatReloader
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 20 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions, users.
+Run 'python manage.py migrate' to apply them.
+October 28, 2026 - 17:29:57
+Django version 6.1.2, using settings 'config.settings'
+Starting WSGI development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Watching for file changes with StatReloader
+[28/Oct/2026 17:32:36] "GET / HTTP/1.1" 200 4041
+[28/Oct/2026 17:32:41] "GET / HTTP/1.1" 200 4041
+[28/Oct/2026 17:32:45] "GET /compare-excel-to-excel/ HTTP/1.1" 200 10620
+[28/Oct/2026 17:33:16] "POST /compare-excel-to-excel/ HTTP/1.1" 200 532265
+[28/Oct/2026 17:34:25] "POST /compare-excel-to-excel/ HTTP/1.1" 200 49443
+[28/Oct/2026 17:36:40] "POST /compare-excel-to-excel/ HTTP/1.1" 200 49443
+/home/it/Documents/koding/excelCompare/apps/compare/views.py changed, reloading.
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 20 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions, users.
+Run 'python manage.py migrate' to apply them.
+October 28, 2026 - 17:32:33
+Django version 6.1.2, using settings 'config.settings'
+Starting WSGI development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
+Watching for file changes with StatReloader
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 20 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions, users.
+Run 'python manage.py migrate' to apply them.
+October 28, 2026 - 17:38:52
+Django version 6.1.2, using settings 'config.settings'
+Starting WSGI development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Watching for file changes with StatReloader
+[28/Oct/2026 17:38:59] "POST /compare-excel-to-excel/ HTTP/1.1" 200 50661
+[28/Oct/2026 17:39:25] "POST /compare-excel-to-excel/ HTTP/1.1" 200 50661
+[28/Oct/2026 17:45:49] "GET / HTTP/1.1" 200 4041
+[28/Oct/2026 17:46:01] "GET /compare-excel-to-excel/ HTTP/1.1" 200 10620
+[28/Oct/2026 17:46:25] "POST /compare-excel-to-excel/ HTTP/1.1" 200 50661
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 20 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions, users.
+Run 'python manage.py migrate' to apply them.
+October 28, 2026 - 17:38:55
+Django version 6.1.2, using settings 'config.settings'
+Starting WSGI development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Watching for file changes with StatReloader
+[29/Oct/2026 08:22:48] "GET / HTTP/1.1" 200 5269
+Not Found: /favicon.ico
+[29/Oct/2026 08:22:48] "GET /favicon.ico HTTP/1.1" 404 3876
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+
+You have 20 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions, users.
+Run 'python manage.py migrate' to apply them.
+October 29, 2026 - 08:22:42
+Django version 6.1.2, using settings 'config.settings'
+Starting WSGI development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/6.1/howto/deployment/
+Warning/Error loading RSA Key: Environment variable PRIVATE_KEY_AUTH tidak ditemukan.
+Watching for file changes with StatReloader
+[29/Oct/2026 08:23:07] "GET / HTTP/1.1" 200 5270
+[29/Oct/2026 08:23:09] "GET /excel-to-excel-bogor/ HTTP/1.1" 200 10560
+[29/Oct/2026 08:23:14] "GET / HTTP/1.1" 200 5270
+[29/Oct/2026 08:23:33] "GET /excel-to-excel-bogor/ HTTP/1.1" 200 10560
+[29/Oct/2026 08:24:44] "GET /compare-excel-to-excel/ HTTP/1.1" 200 10620
+[29/Oct/2026 08:25:11] "POST /compare-excel-to-excel/ HTTP/1.1" 200 50661
+[29/Oct/2026 08:25:59] "GET / HTTP/1.1" 200 5270
+[29/Oct/2026 08:26:01] "GET /excel-to-excel-bogor/ HTTP/1.1" 200 10560
+[29/Oct/2026 08:26:27] "POST /excel-to-excel-bogor/ HTTP/1.1" 200 44237
+[29/Oct/2026 08:34:25] "POST /excel-to-excel-bogor/ HTTP/1.1" 200 44237
+[29/Oct/2026 08:38:44] "GET / HTTP/1.1" 200 5270
+[29/Oct/2026 08:38:46] "GET /excel-to-excel-bogor/ HTTP/1.1" 200 10560
+[29/Oct/2026 08:39:49] "POST /excel-to-excel-bogor/ HTTP/1.1" 200 44217
+[29/Oct/2026 08:47:42] "POST /excel-to-excel-bogor/ HTTP/1.1" 200 44217
+[29/Oct/2026 08:51:21] "GET / HTTP/1.1" 200 5270

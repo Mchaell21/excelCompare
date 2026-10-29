@@ -171,7 +171,7 @@ def compare_exceltoexcel(request):
             df_opname = pd.read_excel(excel_file, header=None)
             
             opname_dict = {}
-            start_row = 20  
+            start_row = 19  
 
             for idx in range(start_row, len(df_opname)):
                 val_b = df_opname.iloc[idx, 0]   
@@ -277,6 +277,133 @@ def compare_exceltoexcel(request):
             messages.error(request, f"Gagal memproses file Excel: {str(e)}")
 
     return render(request, 'exceltoexcel.html', {
+        'results': results,
+        'summary': summary
+    })
+
+def compare_exceltoexcelbogor(request):
+    results = []
+    summary = {'total': 0, 'kurang': 0, 'lebih': 0, 'setara': 0}
+
+    if request.method == 'POST':
+        excel_file = request.FILES.get('excel_file')      # File Excel Opname (Fisik)
+        system_file = request.FILES.get('system_file')    # File Excel Sistem Bogor (Total)
+
+        if not excel_file or not system_file:
+            messages.error(request, "Harap unggah kedua file Excel (File Opname dan File Sistem Bogor).")
+            return render(request, 'exceltoexcelbogor.html', {'results': results, 'summary': summary})
+
+        try:
+            excel_file.seek(0)
+            df_opname = pd.read_excel(excel_file, header=None)
+            
+            opname_dict = {}
+            start_row = 19  # Baris ke-20 di Excel
+
+            for idx in range(start_row, len(df_opname)):
+                val_b = df_opname.iloc[idx, 0]   # Kolom A (Nama Item)
+                val_l = df_opname.iloc[idx, 11]  # Kolom L (Qty Fisik)
+
+                if pd.isna(val_b) or str(val_b).strip() == "":
+                    continue
+
+                item_name = str(val_b).strip()
+                try:
+                    qty_excel = float(val_l) if not pd.isna(val_l) else 0.0
+                    if qty_excel.is_integer():
+                        qty_excel = int(qty_excel)
+                except (ValueError, TypeError):
+                    qty_excel = 0
+
+                opname_dict[item_name] = qty_excel
+
+            if not opname_dict:
+                messages.warning(request, "Tidak ada data item ditemukan pada File Opname mulai baris ke-20.")
+                return render(request, 'exceltoexcelbogor.html', {'results': results, 'summary': summary})
+
+            system_file.seek(0)
+            df_sys_raw = pd.read_excel(system_file, header=None)
+            
+            header_row_idx = 0
+            for idx in range(len(df_sys_raw)):
+                row_vals = [str(val).strip() for val in df_sys_raw.iloc[idx].values]
+                if any('ItemFullName' in val for val in row_vals):
+                    header_row_idx = idx
+                    break
+
+            system_file.seek(0)
+            df_system = pd.read_excel(system_file, header=header_row_idx)
+            df_system.columns = [str(col).strip() for col in df_system.columns]
+
+            qty_col_name = None
+            for col in df_system.columns:
+                col_lower = col.lower()
+                if any(k in col_lower for k in ['total', 'qatota', 'qty', 'quantity', 'jumlah']):
+                    qty_col_name = col
+                    break
+            
+            if not qty_col_name:
+                numeric_cols = [c for c in df_system.columns if c != 'ItemFullName']
+                if numeric_cols:
+                    qty_col_name = numeric_cols[-1]
+
+            system_map = {}
+            for _, row in df_system.iterrows():
+                raw_name = row.get('ItemFullName')
+                if pd.isna(raw_name) or str(raw_name).strip() == "":
+                    continue
+                
+                name_str = str(raw_name).strip()
+                parts = name_str.split(':', 2)
+                if len(parts) >= 3:
+                    item_name = parts[2].strip()
+                else:
+                    item_name = name_str
+
+                system_qty_val = 0.0
+                if qty_col_name and qty_col_name in row:
+                    try:
+                        val = row[qty_col_name]
+                        system_qty_val = float(val) if not pd.isna(val) else 0.0
+                    except:
+                        system_qty_val = 0.0
+
+                if system_qty_val.is_integer():
+                    system_qty_val = int(system_qty_val)
+
+                system_map[item_name] = system_qty_val
+                
+            for name, excel_qty in opname_dict.items():
+                system_qty = system_map.get(name, 0)
+                
+                # Data Opname dikurangi Data Sistem
+                diff = excel_qty - system_qty
+
+                if diff < 0:
+                    status = 'kurang'    
+                    summary['kurang'] += 1
+                elif diff > 0:
+                    status = 'lebih'      
+                    summary['lebih'] += 1
+                else:
+                    status = 'setara' 
+                    summary['setara'] += 1
+
+                results.append({
+                    'item_name': name,
+                    'excel_qty': excel_qty,
+                    'system_qty': system_qty,
+                    'diff': diff,
+                    'status': status
+                })
+
+            summary['total'] = len(results)
+            messages.success(request, f"Berhasil membandingkan {summary['total']} data Bogor berdasarkan File Opname.")
+
+        except Exception as e:
+            messages.error(request, f"Gagal memproses file Excel Bogor: {str(e)}")
+
+    return render(request, 'exceltoexcelbogor.html', {
         'results': results,
         'summary': summary
     })
