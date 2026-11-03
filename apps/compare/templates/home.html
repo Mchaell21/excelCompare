@@ -41,6 +41,20 @@
 <body>
 
 <div class="container py-5">
+    <div class="d-flex justify-content-end mb-9">
+        <form method="post" action="{% url 'users:logout' %}" hx-boost="false">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger gap-2 d-flex align-items-center px-2" title="Logout">
+                  <i class="bi bi-box-arrow-right"></i> Keluar
+                </button>
+        </form>
+        {% if is_superuser %}
+        <a href="{% url 'users:manage' %}" class="btn btn-sm btn-outline-secondary gap-2 d-flex align-items-center px-2 ms-2" title="Kelola Pengguna">
+            <i class="bi bi-people-fill"></i> Kelola Pengguna 
+        </a>
+        {% endif %}
+    </div>
+
     <div class="text-center mb-5">
         <h2 class="fw-bold text-dark">Pilih Mode Komparasi</h2>
         <p class="text-muted">Silakan pilih metode pencocokan data yang ingin kamu lakukan</p>

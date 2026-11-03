@@ -19,6 +19,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 from apps.api.config import auth_api as auth_api
+from users.views import custom_403_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,3 +29,5 @@ urlpatterns = [
 
     path('api/auth/', include((auth_api.urls[0], auth_api.urls[1]), namespace=auth_api.urls[2])),
 ]
+
+handler403 = custom_403_view

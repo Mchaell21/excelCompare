@@ -4,12 +4,15 @@ import requests
 import pandas as pd
 from django.shortcuts import render
 from django.contrib import messages
-from django.conf import settings 
+from django.conf import settings
+from django.contrib.auth.decorators import login_required 
 
+@login_required
 def landing_page(request):
     """Halaman Utama untuk Memilih Mode Komparasi"""
     return render(request, 'home.html')
 
+@login_required
 def compare_exceltoapi(request):
     results = []
     summary = {'total': 0, 'kurang': 0, 'lebih': 0, 'setara': 0}
@@ -154,6 +157,7 @@ def compare_exceltoapi(request):
         'summary': summary
     })
 
+@login_required
 def compare_exceltoexcel(request):
     results = []
     summary = {'total': 0, 'kurang': 0, 'lebih': 0, 'setara': 0}
@@ -281,6 +285,7 @@ def compare_exceltoexcel(request):
         'summary': summary
     })
 
+@login_required
 def compare_exceltoexcelbogor(request):
     results = []
     summary = {'total': 0, 'kurang': 0, 'lebih': 0, 'setara': 0}
