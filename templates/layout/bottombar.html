@@ -3,15 +3,7 @@ Menu bawaan untuk bottom bar (mode mobile).
 App bisa mengganti menu ini dengan meng-override block `bottombar_links`
 pada layout/app.html di template halamannya.
 {% endcomment %}
-<a class="bottombar-link" href="{% url '' %}">
-  {% include "layout/partials/icon.html" with name="home" %}
+<a class="bottombar-link" href="{% url 'landing_page' %}">
+  <i class="bi bi-house-door-fill"></i>
   <span>Dashboard</span>
-</a>
-<a class="bottombar-link" href="{% url 'warehouse:product-list' %}">
-  {% include "layout/partials/icon.html" with name="package" %}
-  <span>Produk</span>
-</a>
-<a class="bottombar-link" href="{% url 'warehouse:order-list' %}">
-  {% include "layout/partials/icon.html" with name="cart" %}
-  <span>Order</span>
 </a>

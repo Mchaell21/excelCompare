@@ -34,9 +34,9 @@
     <div class="app-layout d-flex">
       {% block sidebar %}
       <aside id="appSidebar" class="app-sidebar d-none d-lg-flex flex-column">
-        <a class="app-brand row align-items-center gap-1 justify-content-center pt-5" href="{% url "" %}" >
+        <a class="app-brand row align-items-center gap-1 justify-content-center pt-5" href="{% url "landing_page" %}" target="_blank" rel="noopener noreferrer" >
           <img src="{%  static 'images/logo.png' %}" alt="" srcset="" width=100>
-          <span class="w-100 justify-content-center d-flex font-monospace">'Sistem ---'</span>
+          <span class="w-100 justify-content-center d-flex font-monospace">Admin Kontrol</span>
         </a>
 
         <nav class="app-nav flex-grow-1 p-3">
@@ -75,7 +75,7 @@
       <div class="app-main" id="main-content">
         {% block navbar %}
         <nav class="app-navbar d-flex align-items-center gap-3">
-          <a class="app-brand d-lg-none" href="{% url '' %}">
+          <a class="app-brand d-lg-none" href="{% url 'landing_page' %}">
             <span class="w-100 justify-content-center d-flex font-monospace">Sistem ----</span>
           </a>
           <div class="d-none d-lg-block fw-semibold">{% block page_title %}{% endblock %}</div>

@@ -25,18 +25,17 @@ def role_required(*role_names):
     return decorator
 
 
-def is_sales_admin(user):
-    return user_has_role(user, 'Sales Admin')
+# def is_sales_admin(user):
+#     return user_has_role(user, 'Sales Admin')
 
+# def is_dispatch(user):
+#     return user_has_role(user, 'Dispatch')
 
-def is_dispatch(user):
-    return user_has_role(user, 'Dispatch')
+# def is_manager(user):
+#     return user_has_role(user, 'Manager')
 
-def is_manager(user):
-    return user_has_role(user, 'Manager')
-
-def is_accounting(user):
-    return user_has_role(user, 'Accounting')
+# def is_accounting(user):
+#     return user_has_role(user, 'Accounting')
 
 def superuser_required(view_func):
     @wraps(view_func)

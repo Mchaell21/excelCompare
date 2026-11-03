@@ -19,7 +19,7 @@ from .utils.telegram import send_telegram
 
 def login_view(request: HttpRequest):
     if request.user.is_authenticated:
-        return redirect("")
+        return redirect("landing_page")
 
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
@@ -31,7 +31,7 @@ def login_view(request: HttpRequest):
             )
 
             if user:
-                return redirect("")
+                return redirect("landing_page")
             messages.error(request, "Username atau password salah.")
         else:
             messages.error(request, "Silakan periksa kembali inputan Anda.")
@@ -83,7 +83,7 @@ def login_otp_view(request: HttpRequest):
 
         if success:
             del request.session["pending_otp_user_id"]
-            return redirect("")
+            return redirect("landing_page")
         
         messages.error(request, msg)
 
@@ -273,3 +273,6 @@ def telegram_disconnect(request: HttpRequest):
     user_service.disconnect_telegram(request.user)
     messages.success(request, "Koneksi Telegram berhasil diputuskan.")
     return redirect("users:profile")
+
+def custom_403_view(request, exception=None):
+    return render(request, "errors/403.html", status=403)

@@ -20,23 +20,6 @@ misal menambahkan tombol Profil:
         <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
           Superadmin
         </span> 
-      {% elif  is_sales_admin %}
-        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
-          Sales Admin
-        </span>
-      {% elif is_dispatch %}
-        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
-          Dispatch
-        </span>
-      
-      {% elif is_manager %}
-        <span class="badge bg-warning-subtle text-danger border border-danger-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
-          Manager
-        </span>
-      {% elif is_accounting %}
-        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
-          Accounting
-        </span>
       {% else %}
         <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill mt-1" style="font-size: 0.7rem;">
           User

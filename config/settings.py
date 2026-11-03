@@ -169,6 +169,11 @@ SESSION_SAVE_EVERY_REQUEST=False
 # Tambahan
 AUTH_USER_MODEL = 'users.Advanced'
 
+# Halaman login aplikasi (redirect @login_required)
+LOGIN_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/titip/'
+LOGOUT_REDIRECT_URL = '/users/login/'
+
 CORS_ALLOWED_ORIGINS = [h.strip() for h in os.getenv('ALLOWED_ORIGINS', '').split(',') if h.strip()]
 CORS_ALLOW_CREDENTIALS = True
 

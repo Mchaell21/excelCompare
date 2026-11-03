@@ -10,10 +10,10 @@ User = get_user_model()
 
 # Role aktif aplikasi (v1.2+): Crew tidak dipakai.
 ACTIVE_ROLES = (
-    ("Sales Admin", "Sales Admin"),
-    ("Dispatch", "Dispatch"),
-    ("Manager", "Manager"),
-    ("Accounting", "Accounting")
+    # ("Sales Admin", "Sales Admin"),
+    # ("Dispatch", "Dispatch"),
+    # ("Manager", "Manager"),
+    # ("Accounting", "Accounting")
 )
 
 

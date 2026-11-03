@@ -6,25 +6,6 @@ pada layout/app.html di template halamannya.
 
 <ul class="nav flex-column gap-1">
   <li class="nav-item">
-    <a class="nav-link" href="{% url '' %}">
-      <i class="bi bi-house-door-fill"></i>
-      <span>Dashboard</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'warehouse:product-list' %}">
-      {% include "layout/partials/icon.html" with name="package" %}
-      <span>Produk</span>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'warehouse:order-list' %}">
-      {% include "layout/partials/icon.html" with name="cart" %}
-      <span>Order</span>
-    </a>
-  </li>
-
-  <li class="nav-item">
     <a class="nav-link" href="{% url 'users:profile' %}">
       <i class="bi bi-person-fill-gear"></i>
       <span>Pengaturan Akun</span>
